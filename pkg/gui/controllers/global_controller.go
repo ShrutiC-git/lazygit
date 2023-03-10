@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"strings"
+
 	"github.com/jesseduffield/generics/slices"
 	"github.com/jesseduffield/lazygit/pkg/gui/controllers/helpers"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
@@ -37,10 +39,12 @@ func (self *GlobalController) customCommand() error {
 		Title:               self.c.Tr.CustomCommand,
 		FindSuggestionsFunc: self.GetCustomCommandsHistorySuggestionsFunc(),
 		HandleConfirm: func(command string) error {
-			self.c.GetAppState().CustomCommandsHistory = utils.Limit(
-				lo.Uniq(append(self.c.GetAppState().CustomCommandsHistory, command)),
-				1000,
-			)
+			if !strings.HasPrefix(command, " ") {
+				self.c.GetAppState().CustomCommandsHistory = utils.Limit(
+					lo.Uniq(append(self.c.GetAppState().CustomCommandsHistory, command)),
+					1000,
+				)
+			}
 
 			err := self.c.SaveAppState()
 			if err != nil {
