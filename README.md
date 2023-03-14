@@ -15,6 +15,7 @@ A simple terminal UI for git commands, written in Go with the [gocui](https://gi
 
 ![Gif](../assets/staging.gif)
 
+
 ## Sponsors
 
 <p align="center">
